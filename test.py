@@ -47,9 +47,7 @@ def main():
     )
     values = pd.DataFrame(result.get("values", []))
     print(values)
-    if not values:
-      print("No data found.")
-      return
+    
 
   except HttpError as err:
     print(err)
