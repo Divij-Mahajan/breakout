@@ -13,6 +13,8 @@ if 'data' not in st.session_state:
 else:
     data=st.session_state['data']
 ## Spreadsheet
+
+
 def getSpreadsheet(SPREADSHEET_ID,RANGE_NAME):
     import os.path
     import json
@@ -26,29 +28,15 @@ def getSpreadsheet(SPREADSHEET_ID,RANGE_NAME):
     Prints values from a sample spreadsheet.
     """
     creds = None
-    if os.path.exists("token.json"):
-      creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    if st.secrets['GOOGLE_TOKEN']:
+      creds = Credentials.from_authorized_user_info(json.loads(st.secrets['GOOGLE_TOKEN']),SCOPES)
     if not creds or not creds.valid:
       if creds and creds.expired and creds.refresh_token:
         creds.refresh(Request())
-      else:
-        flow = InstalledAppFlow.from_client_config(
-            json.loads(st.secrets['GOOGLE_CREDENTIALS']), SCOPES
-        )
-        creds = flow.authorization_url()
-        print()
-        print()
-        print()
-        print()
+        print("Need to Refresh token")
         print(creds)
-        print(type(creds))
-        st.markdown(f"""
-            <script type="text/javascript">
-                window.location.href = "{creds[0]}";
-            </script>
-        """, unsafe_allow_html=True)
-      with open("token.json", "w") as token:
-        token.write(creds.to_json())
+      else:
+        print("No Token Found")
     try:
       service = build("sheets", "v4", credentials=creds)
       sheet = service.spreadsheets()
