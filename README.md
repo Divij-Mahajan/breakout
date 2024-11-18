@@ -6,7 +6,7 @@ It follows a 3 LLM approach, for refining query, smartly accessing the web searc
 
 ![Architecture](./architecture.png)
 
-### Users Guide: 
+### Users Guide:  
 -  Users can upload their CSV files.
 -  Users may also add Google Sheet URL along with sheet name and range.
 -  The given Google Sheet must be set to either Read by anyone with link or read access should be given to divijmahajan_co22a4_07@dtu.ac.in
