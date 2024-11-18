@@ -13,7 +13,8 @@ if 'data' not in st.session_state:
 else:
     data=st.session_state['data']
 ## Spreadsheet
-
+if "file_uploader_key" not in st.session_state:
+    st.session_state["file_uploader_key"] = 0
 
 def getSpreadsheet(SPREADSHEET_ID,RANGE_NAME):
     import os.path
@@ -24,9 +25,6 @@ def getSpreadsheet(SPREADSHEET_ID,RANGE_NAME):
     from googleapiclient.discovery import build
     from googleapiclient.errors import HttpError
     SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
-    """Shows basic usage of the Sheets API.
-    Prints values from a sample spreadsheet.
-    """
     creds = None
     if st.secrets['GOOGLE_TOKEN']:
       creds = Credentials.from_authorized_user_info(json.loads(st.secrets['GOOGLE_TOKEN']),SCOPES)
@@ -47,7 +45,7 @@ def getSpreadsheet(SPREADSHEET_ID,RANGE_NAME):
       )
       global data
       data = pd.DataFrame(result.get("values", []))
-      data.columns = data.iloc[0]  # Set the first row as the header
+      data.columns = data.iloc[0] 
       data = data[1:] 
       data = data.reset_index(drop=True)
       st.session_state['data']=data
@@ -74,10 +72,12 @@ if file_col2_d2.button("Upload"):
     getSpreadsheet(getId(url),name+"!"+rang)
 file_col1.write("or")
 file_col1.subheader("Upload File:")
-uploaded_file = file_col1.file_uploader("")
+uploaded_file = file_col1.file_uploader(" ", type=None, label_visibility="collapsed",key=st.session_state["file_uploader_key"])
+
 if uploaded_file is not None:
     st.session_state['data'] =pd.read_csv(uploaded_file)
-
+    st.session_state["file_uploader_key"] += 1
+    st.rerun() 
 data=st.session_state['data']
 csv_buffer = BytesIO()
 data.to_csv(csv_buffer, index=False, encoding='utf-8')
@@ -91,6 +91,7 @@ file_col2_h1.download_button(
     mime='text/csv',
 )
 file_col2_h2.button("Refresh")
+
 # Column 2
 file_col2.write(data)
 
@@ -103,6 +104,7 @@ query = input_area.text_input("Input Query:", "")
 
 def expand_query(query,dic):
     return query.format(**dic)
+
 # submit query button
 if inp_col2.button("Submit Query"):
     from langchain_anthropic import ChatAnthropic
@@ -115,10 +117,6 @@ if inp_col2.button("Submit Query"):
 
    
     import json
-
-    # Create the agent
-    #model = ChatAnthropic(model_name="claude-3-sonnet-20240229")
-    #agent_executor = create_react_agent(model, tools, checkpointer=memory)
     memory = MemorySaver()
     search = TavilySearchResults(max_results=2)
     tools = [search]
@@ -152,9 +150,6 @@ if inp_col2.button("Submit Query"):
                 for k in chunk:
                     if(k=="tools"):
                         print("--summary--")
-                        #print(json.loads(dict(dict(chunk)['tools']['messages'][0])['content'])[0]['url'])
-                        #print(json.loads(dict(dict(chunk)['tools']['messages'][0])['content'])[0]['content'])
-                        
                         messages = [
                             (
                                 "system",

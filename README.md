@@ -27,6 +27,7 @@ It follows a 3 LLM approach, for refining query, smartly accessing the web searc
   - For Langchain and Tavily:
     - Create a new LangChain Smith Tracing project and get all the Langchain API KEYs from [here](https://smith.langchain.com/o/).
     - Get Tavily API keys from [here](https://tavily.com/).
+  - Use 'streamlit run dashboard.py' to run it locally.
   - In case the project is needed to be hosted, feel free to host on Streamlit comunity cloud and all the secrets there.
   
 ### Optional Features: 
