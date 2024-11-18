@@ -131,7 +131,7 @@ if inp_col2.button("Submit Query"):
     refine_messages = [
         (
             "system",
-            "Refined the given text format it by removing any typo, expanding abbrevations (if required) and making sure the variables in '"+"{}"+f"' matches one of following columns : {str(data.columns.tolist())}, or return 'invalid string' if no column matches, return only the formatted text without any other information. Don't remove "+"{} around the variables",
+            "Refined the given text format it by removing any typo, expanding abbrevations (if required) and making sure the variables in '"+"{}"+f"' matches one of following columns : {str(data.columns.tolist())}, or return 'invalid string' if no column matches, return only the formatted text without any other information. Don't remove "+"{} around the variables. In case the query is in another language then English, kindly convert it into english.",
         ),
         ("human", query),
     ]
