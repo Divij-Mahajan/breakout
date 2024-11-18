@@ -35,7 +35,18 @@ def getSpreadsheet(SPREADSHEET_ID,RANGE_NAME):
         flow = InstalledAppFlow.from_client_config(
             json.loads(st.secrets['GOOGLE_CREDENTIALS']), SCOPES
         )
-        creds = flow.run_local_server(port=0)
+        creds = flow.authorization_url()
+        print()
+        print()
+        print()
+        print()
+        print(creds)
+        print(type(creds))
+        st.markdown(f"""
+            <script type="text/javascript">
+                window.location.href = "{creds[0]}";
+            </script>
+        """, unsafe_allow_html=True)
       with open("token.json", "w") as token:
         token.write(creds.to_json())
     try:
@@ -77,7 +88,7 @@ file_col1.write("or")
 file_col1.subheader("Upload File:")
 uploaded_file = file_col1.file_uploader("")
 if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file)
+    st.session_state['data'] =pd.read_csv(uploaded_file)
 
 data=st.session_state['data']
 csv_buffer = BytesIO()

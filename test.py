@@ -30,6 +30,7 @@ def main():
       flow = InstalledAppFlow.from_client_config(
           json.loads(GOOGLE_CREDENTIALS), SCOPES
       )
+      print(help(flow))
 
       creds = flow.run_local_server(port=0)
     with open("token.json", "w") as token:
