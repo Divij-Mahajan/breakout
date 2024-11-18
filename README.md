@@ -37,4 +37,4 @@ It follows a 3 LLM approach, for refining query, smartly accessing the web searc
 - Allows to get data from spreadsheet and choose the sheet name and range, without having to authenticate.
 - Allows the inputed query to have slang or even in a different language as whole.
 
-Loom Video Link: https://www.loom.com/share/477b45c630f1438989d4e91ef790e6e6?sid=87fcaaaa-dedf-4964-af65-76ff21bab5b5
+Loom Video Link (Detailed): https://www.loom.com/share/91cb6973dfd248c086f09a95c768d13a?sid=86dfde9f-238e-4444-9d1b-9b7d62c62eab
